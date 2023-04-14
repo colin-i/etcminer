@@ -5,15 +5,16 @@ include(cmake/cable/bootstrap.cmake)
 include(CableBuildInfo)
 include(CableBuildType)
 include(CableToolchains)
+include(HunterGate)
 
 cable_configure_toolchain(DEFAULT cxx11)
 
-set(HUNTER_CONFIGURATION_TYPES Release)
-set(HUNTER_CACHE_SERVERS "https://github.com/ethereum/hunter-cache")
-include(HunterGate)
+set(HUNTER_CONFIGURATION_TYPES Release CACHE STRING "Build type of Hunter packages")
+set(HUNTER_JOBS_NUMBER 6 CACHE STRING "Number of parallel builds used by Hunter")
+
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.19.213.tar.gz"
-    SHA1 "59b2b880178bdc1e9cce83f279f1d88feefa07a2"
+    URL "https://github.com/ruslo/hunter/archive/v0.23.112.tar.gz"
+    SHA1 "4b894e1d5d203f0cc9a77431dbb1b486ab6f4430"
     LOCAL
 )
 
@@ -42,8 +43,8 @@ if(HUNTER_ENABLED)
 endif()
 
 
-project(ethminer)
-set(PROJECT_VERSION 0.14.0)
+project(etcminer)
+set(PROJECT_VERSION 0.1.0)
 
 cable_set_build_type(DEFAULT Release CONFIGURATION_TYPES Release RelWithDebInfo Debug)
 
@@ -60,7 +61,7 @@ cmake_policy(SET CMP0054 NEW)
 ######################################################################################################
 
 option(ETHASHCL "Build with OpenCL mining" ON)
-option(ETHASHCUDA "Build with CUDA mining" OFF)
+option(ETHASHCUDA "Build with CUDA mining" ON)
 option(ETHDBUS "Build with D-Bus support" OFF)
 option(APICORE "Build with API Server support" ON)
 

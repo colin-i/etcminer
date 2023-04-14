@@ -4,13 +4,13 @@ aux_source_directory(. SRC_LIST)
 
 include_directories(BEFORE ..)
 
-set(EXECUTABLE ethminer)
+set(EXECUTABLE etcminer)
 
 file(GLOB HEADERS "*.h")
 
 add_executable(${EXECUTABLE} ${SRC_LIST} ${HEADERS})
 
-target_link_libraries(ethminer PRIVATE ethcore ethash poolprotocols devcore ethminer-buildinfo)
+target_link_libraries(etcminer PRIVATE ethcore ethash poolprotocols devcore ethminer-buildinfo)
 
 if(ETHDBUS)
 	find_package(PkgConfig)
@@ -22,11 +22,11 @@ if(ETHDBUS)
 endif()
 
 if(APICORE)
-	target_link_libraries(ethminer PRIVATE apicore)
+	target_link_libraries(etcminer PRIVATE apicore)
 endif()
 
 include(GNUInstallDirs)
-install(TARGETS ethminer DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS etcminer DESTINATION ${CMAKE_INSTALL_BINDIR})
 if(MSVC)
-    install(FILES $<TARGET_PDB_FILE:ethminer> DESTINATION ${CMAKE_INSTALL_BINDIR} OPTIONAL)
+    install(FILES $<TARGET_PDB_FILE:etcminer> DESTINATION ${CMAKE_INSTALL_BINDIR} OPTIONAL)
 endif()

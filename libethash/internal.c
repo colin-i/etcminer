@@ -32,14 +32,12 @@
 
 uint64_t ethash_get_datasize(uint64_t const block_number)
 {
-	assert(block_number / ETHASH_EPOCH_LENGTH < 2048);
-	return dag_sizes[block_number / ETHASH_EPOCH_LENGTH];
+    return dag_sizes[etchash_calc_epoch(block_number)];
 }
 
 uint64_t ethash_get_cachesize(uint64_t const block_number)
 {
-	assert(block_number / ETHASH_EPOCH_LENGTH < 2048);
-	return cache_sizes[block_number / ETHASH_EPOCH_LENGTH];
+    return cache_sizes[etchash_calc_epoch(block_number)];
 }
 
 // Follows Sergio's "STRICT MEMORY HARD HASHING FUNCTIONS" (2014)
@@ -264,6 +262,12 @@ void ethash_light_delete(ethash_light_t light)
 		free(light->cache);
 	}
 	free(light);
+}
+
+uint64_t static etchash_calc_epoch(uint64_t const block_number)
+{
+    uint64_t epochLen = block_number >= ETCHASH_FORK_BLOCK ? ETHASH_EPOCH_LENGTH_NEW: ETHASH_EPOCH_LENGTH;    
+    return block_number / epochLen;
 }
 
 ethash_return_value_t ethash_light_compute_internal(
